@@ -2,7 +2,9 @@
 
 ## 概要
 c++を用いて、２次元キャビティ流れを計算するプログラムを作成する。
+
 ![Alt text](docs/problem_setup/problem_setup.webp)
+
 ## 目的
 - c++の勉強のため
   - c++の文法、環境に親しむ
