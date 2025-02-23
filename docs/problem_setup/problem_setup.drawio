@@ -1,0 +1,40 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.9 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.9">
+  <diagram name="ページ1" id="D2a4orqu92_KeRABc9eB">
+    <mxGraphModel dx="647" dy="459" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1390" pageHeight="360" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-5" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillStyle=solid;fillColor=#999999;imageWidth=24;fillOpacity=100;portConstraint=none;labelPadding=0;strokeOpacity=100;" parent="1" vertex="1">
+          <mxGeometry x="70" y="80" width="180" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="80" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-2" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="80" as="sourcePoint" />
+            <mxPoint x="280" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-3" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;endWidth=14.594594594594595;endSize=6.891891891891891;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="54.730000000000004" as="sourcePoint" />
+            <mxPoint x="210" y="54.730000000000004" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-4" value="U" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="120" y="40" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-6" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillStyle=solid;fillColor=#999999;imageWidth=24;fillOpacity=100;portConstraint=none;labelPadding=0;strokeOpacity=100;" parent="1" vertex="1">
+          <mxGeometry x="40" y="70" width="240" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-7" value="Lx, nx" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;" parent="1" vertex="1">
+          <mxGeometry x="130" y="220" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="nLY7P3FtBvSz40wue8Jh-8" value="Ly, ny" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;rotation=-90;" parent="1" vertex="1">
+          <mxGeometry x="200" y="150" width="60" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
