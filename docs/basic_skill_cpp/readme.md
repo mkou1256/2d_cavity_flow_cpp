@@ -115,3 +115,36 @@ inline void c::set( int const value )
 - 参照
   - [ヘッダファイルの書き方](https://qiita.com/MoriokaReimen/items/7c83ebd0fbae44d8532d)
   - [c++でヘッダとソースでファイルを分ける　基本編](https://qiita.com/agate-pris/items/1b29726935f0b6e75768)
+
+
+### 戻り値の型と後置修飾
+```cpp
+const std::vector<double>& getXc() const;
+```
+- 先頭の`const`は読み取り専用を示す
+- 型のケツについている`&`は参照型戻り値を示す。参照を戻すため、新たにメモリを確保しない。
+  - 参照型とポインタ型の違いは何？
+- 最後の`const`は、この関数がメンバ変数を変更しないことを保証している。
+
+
+### 参照型とポインタ型の違い
+- ポインタ型: 
+  - 変数のアドレスを値として持つ型
+  - `int* ip;`: `ip`はアドレスの値を持った変数
+    ```cpp
+    int i;
+    int* ip = &i; //ipにiのアドレスを渡す
+    int i2 = *ip //i2にipの中身を代入
+    ```
+- 参照型: 
+  - 参照型もポインタ型と同じくアドレスを値に持つ型である。
+  - しかし、参照型は初期化時以外は参照先を変更することができない。
+  - = constポインタ型のようなイメージ
+    ```cpp
+    int i;
+    int& ref = i; //refにiのアドレスを渡す。この時、&iとする必要はない。
+    int i2 = ref; //i2をrefのアドレス参照する変数とする
+    ```
+
+- 参照
+  - [c++初心者が躓く「値型、ポインタ型、参照型」](https://qiita.com/0htaka/items/abc0671455ec4ea8b0fc)
