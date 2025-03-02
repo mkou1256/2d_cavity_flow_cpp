@@ -23,10 +23,29 @@ const std::vector<double>& Mesh2D::getYc() const { return yc; }
 const std::vector<double>& Mesh2D::getXu() const { return xu; }
 const std::vector<double>& Mesh2D::getYv() const { return yv; }
 
+// for debug
 void Mesh2D::print() const {
     std::cout << "xc: " ;
     for (double xi : xc){
         std::cout << xi << " ";
+    }
+    std::cout << std::endl; 
+
+    std::cout << "yc: " ;
+    for (double yi : yc){
+        std::cout << yi << " ";
+    }
+    std::cout << std::endl; 
+
+    std::cout << "xu: " ;
+    for (double xi : xu){
+        std::cout << xi << " ";
+    }
+    std::cout << std::endl; 
+
+    std::cout << "yv: " ;
+    for (double yi : yv){
+        std::cout << yi << " ";
     }
     std::cout << std::endl; 
 }
