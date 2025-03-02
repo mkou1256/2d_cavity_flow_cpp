@@ -150,3 +150,31 @@ const std::vector<double>& getXc() const;
 
 - 参照
   - [c++初心者が躓く「値型、ポインタ型、参照型」](https://qiita.com/0htaka/items/abc0671455ec4ea8b0fc)
+
+
+### C++のキャストについて
+static_cast, dynamic_cast, constt_cast, reinterpret_castの4種類存在する。
+- static_cast
+  - 型変換を明示的に行う。必要があれば値を変化させる。
+    ```cpp
+    double dx = 3.14;
+    int x = static_cast<int>(dx);  // 3
+    ```
+  - 列挙型と数値型の変換など、暗黙的に変換されない変換も行える。
+- dynamic_cast
+  - ダウンキャストというものについて書かれていたが、よく理解できなかった。
+- const_cast
+  - const修飾子を外すために用いる
+    ```cpp
+    const std::string str("hoge");
+    std::string& x = const_cast<std::string&>(str);
+    ```
+  - そもそもconstをつけているので、用いるべきではない
+- reinterpret_cast
+  - 値はそのままで、型情報の変換を行うキャスト
+  - 安全じゃないらしい。
+  - バイナリーデータの読み書きで用いられる
+
+- 参照
+  - [c++のキャストについて](https://rinatz.github.io/cpp-book/ch08-01-cpp-casts/)
+  - [ダウンキャスト](https://rinatz.github.io/cpp-book/appendix-downcasts/)
