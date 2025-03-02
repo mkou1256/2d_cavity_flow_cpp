@@ -1,3 +1,5 @@
+[TOC]
+
 ## 概要
 c++に関して、知らない概念や、よく理解していない概念、便利だと思ったスキルをメモする文書。
 できるだけ具体例を交えて理解するように心がける。もし、コードを実行した際には、そのリンクを貼ること。
@@ -115,3 +117,104 @@ inline void c::set( int const value )
 - 参照
   - [ヘッダファイルの書き方](https://qiita.com/MoriokaReimen/items/7c83ebd0fbae44d8532d)
   - [c++でヘッダとソースでファイルを分ける　基本編](https://qiita.com/agate-pris/items/1b29726935f0b6e75768)
+
+
+### 戻り値の型と後置修飾
+```cpp
+const std::vector<double>& getXc() const;
+```
+- 先頭の`const`は読み取り専用を示す
+- 型のケツについている`&`は参照型戻り値を示す。参照を戻すため、新たにメモリを確保しない。
+  - 参照型とポインタ型の違いは何？
+- 最後の`const`は、この関数がメンバ変数を変更しないことを保証している。
+
+
+### 参照型とポインタ型の違い
+- ポインタ型: 
+  - 変数のアドレスを値として持つ型
+  - `int* ip;`: `ip`はアドレスの値を持った変数
+    ```cpp
+    int i;
+    int* ip = &i; //ipにiのアドレスを渡す
+    int i2 = *ip //i2にipの中身を代入
+    ```
+- 参照型: 
+  - 参照型もポインタ型と同じくアドレスを値に持つ型である。
+  - しかし、参照型は初期化時以外は参照先を変更することができない。
+  - = constポインタ型のようなイメージ
+    ```cpp
+    int i;
+    int& ref = i; //refにiのアドレスを渡す。この時、&iとする必要はない。
+    int i2 = ref; //i2をrefのアドレス参照する変数とする
+    ```
+
+- 参照
+  - [c++初心者が躓く「値型、ポインタ型、参照型」](https://qiita.com/0htaka/items/abc0671455ec4ea8b0fc)
+
+
+### C++のキャストについて
+static_cast, dynamic_cast, constt_cast, reinterpret_castの4種類存在する。
+- static_cast
+  - 型変換を明示的に行う。必要があれば値を変化させる。
+    ```cpp
+    double dx = 3.14;
+    int x = static_cast<int>(dx);  // 3
+    ```
+  - 列挙型と数値型の変換など、暗黙的に変換されない変換も行える。
+- dynamic_cast
+  - ダウンキャストというものについて書かれていたが、よく理解できなかった。
+- const_cast
+  - const修飾子を外すために用いる
+    ```cpp
+    const std::string str("hoge");
+    std::string& x = const_cast<std::string&>(str);
+    ```
+  - そもそもconstをつけているので、用いるべきではない
+- reinterpret_cast
+  - 値はそのままで、型情報の変換を行うキャスト
+  - 安全じゃないらしい。
+  - バイナリーデータの読み書きで用いられる
+
+- 参照
+  - [c++のキャストについて](https://rinatz.github.io/cpp-book/ch08-01-cpp-casts/)
+  - [ダウンキャスト](https://rinatz.github.io/cpp-book/appendix-downcasts/)
+
+
+### Makefileについて
+- Makeに必要な情報
+  - コンパイラ: `CC = g++`
+  - コンパイルオプション: `CFLAGS = `
+  - 実行ファイル名: `TARGET = exe`
+  - コンパイル対象のソースコード: `SRCS = main.cpp ...`
+  - オブジェクトファイル名: `OBJS = $(SRCS:.cpp=.o)`
+  - includeファイルのあるディレクトリパス: `INCDIR = -I../inc`
+- ターゲットの生成
+  - ターゲットファイルの生成:
+    ```make
+    $(TARGET): $(OBJS)
+        $(CC) -o $@ $^ $(LIBDIR) $(LIBS)
+    ```
+  - オブジェクトファイルの生成:
+    ```make
+    $(OBJS): $(SRCS)
+        $(CC) $(CFLAGS) $(INCDIR) -c $(SRCS)
+    ```
+- Make実行オプション
+  - make all として、clean -> makeを同時に行えるコマンドを作れる
+  - `make clean`: 
+
+
+- 最低限の文法
+    ```make
+    <target>: <pre-requisite>
+        <command>
+    ```
+    は次のような動作をする。
+    - targetが呼ばれたとき、まず前提条件pre-requisiteのターゲットを実行する
+    - その後、targetファイルがない、または前提条件のファイルよりタイムスタンプが古い場合にcommandを実行する
+    - targetファイルがあり、かつ前提条件のファイルよりタイムスタンプが新しい場合は何もしない
+    - 
+
+- 参照
+  - [Makefileの書き方(初心者向け)](https://qiita.com/yagiyuki/items/ff343d381d9477e89f3b)
+  - [ついにッ！最強のMakefileが完成したぞッッッ！！！](https://qiita.com/harinez2/items/0d25eabdc6dae66e7bee)
