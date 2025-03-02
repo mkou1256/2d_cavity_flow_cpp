@@ -13,10 +13,10 @@ class Mesh2D{
     public:
         Mesh2D(int nx, int ny, double lx, double ly);
 
-        const std::vector<double>& getXc() const;
-        const std::vector<double>& getYc() const;
-        const std::vector<double>& getXu() const;
-        const std::vector<double>& getYv() const;
+        const std::vector<double>& get_xc() const;
+        const std::vector<double>& get_yc() const;
+        const std::vector<double>& get_xu() const;
+        const std::vector<double>& get_yv() const;
 
         void print() const;
 };
