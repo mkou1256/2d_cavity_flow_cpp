@@ -178,3 +178,43 @@ static_cast, dynamic_cast, constt_cast, reinterpret_castの4種類存在する�
 - 参照
   - [c++のキャストについて](https://rinatz.github.io/cpp-book/ch08-01-cpp-casts/)
   - [ダウンキャスト](https://rinatz.github.io/cpp-book/appendix-downcasts/)
+
+
+### Makefileについて
+- Makeに必要な情報
+  - コンパイラ: `CC = g++`
+  - コンパイルオプション: `CFLAGS = `
+  - 実行ファイル名: `TARGET = exe`
+  - コンパイル対象のソースコード: `SRCS = main.cpp ...`
+  - オブジェクトファイル名: `OBJS = $(SRCS:.cpp=.o)`
+  - includeファイルのあるディレクトリパス: `INCDIR = -I../inc`
+- ターゲットの生成
+  - ターゲットファイルの生成:
+    ```make
+    $(TARGET): $(OBJS)
+        $(CC) -o $@ $^ $(LIBDIR) $(LIBS)
+    ```
+  - オブジェクトファイルの生成:
+    ```make
+    $(OBJS): $(SRCS)
+        $(CC) $(CFLAGS) $(INCDIR) -c $(SRCS)
+    ```
+- Make実行オプション
+  - make all として、clean -> makeを同時に行えるコマンドを作れる
+  - `make clean`: 
+
+
+- 最低限の文法
+    ```make
+    <target>: <pre-requisite>
+        <command>
+    ```
+    は次のような動作をする。
+    - targetが呼ばれたとき、まず前提条件pre-requisiteのターゲットを実行する
+    - その後、targetファイルがない、または前提条件のファイルよりタイムスタンプが古い場合にcommandを実行する
+    - targetファイルがあり、かつ前提条件のファイルよりタイムスタンプが新しい場合は何もしない
+    - 
+
+- 参照
+  - [Makefileの書き方(初心者向け)](https://qiita.com/yagiyuki/items/ff343d381d9477e89f3b)
+  - [ついにッ！最強のMakefileが完成したぞッッッ！！！](https://qiita.com/harinez2/items/0d25eabdc6dae66e7bee)
