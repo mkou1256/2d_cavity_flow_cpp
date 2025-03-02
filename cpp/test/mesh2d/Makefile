@@ -1,8 +1,8 @@
 CXX = g++
 CXXFLAGS = -Wall
 TARGET = test_mesh
-SRCS = main.cpp ../../mesh2d.cpp
-INCDIR = -I../../../inc
+SRCS = main.cpp ../../src/mesh2d.cpp
+INCDIR = -I../../inc
 OBJS = $(SRCS:.cpp=.o)
 
 $(TARGET): $(OBJS)
