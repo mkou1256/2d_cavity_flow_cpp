@@ -7,6 +7,7 @@ std::vector<double> SecondOrderCenterDiff::compute(
     size_t n = f.size();
     if (n != x.size()) {
         std::cerr << "[Error] Invalid size of vector.\n";
+        return std::vector<double>(); //return empty vector when error.
     }
 
     std::vector<double> df_dx(n, 0.0);
