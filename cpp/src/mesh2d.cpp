@@ -18,10 +18,10 @@ Mesh2D::Mesh2D(int nx, int ny, double lx, double ly){
     }
 }
 
-const std::vector<double>& Mesh2D::getXc() const { return xc; }
-const std::vector<double>& Mesh2D::getYc() const { return yc; }
-const std::vector<double>& Mesh2D::getXu() const { return xu; }
-const std::vector<double>& Mesh2D::getYv() const { return yv; }
+const std::vector<double>& Mesh2D::get_xc() const { return xc; }
+const std::vector<double>& Mesh2D::get_yc() const { return yc; }
+const std::vector<double>& Mesh2D::get_xu() const { return xu; }
+const std::vector<double>& Mesh2D::get_yv() const { return yv; }
 
 // for debug
 void Mesh2D::print() const {

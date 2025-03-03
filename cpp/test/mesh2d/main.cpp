@@ -11,7 +11,7 @@ int main() {
     mesh.print();
 
     std::cout << "test for getXc()" << std::endl;
-    std::vector<double> xc = mesh.getXc();
+    std::vector<double> xc = mesh.get_xc();
     for (double xi : xc){
         std::cout << xi << " " ;
     }
