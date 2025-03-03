@@ -1,6 +1,7 @@
 #include "mesh2d.hpp"
 #include "flow_field.hpp"
 #include <iostream>
+#include <fstream>
 
 FlowField::FlowField(const Mesh2D& mesh)
     : nx(mesh.get_xc().size()), ny(mesh.get_yc().size()) {
@@ -30,6 +31,39 @@ void FlowField::update(
             p[i][j] += dp[i][j];
         }
     }
+}
+
+void FlowField::save_to_file(
+    const std::string& filename,
+    const std::string& format
+) const {
+    if (format == "csv"){
+        write_csv(filename + "_u.csv", u);
+        write_csv(filename + "_v.csv", v);
+        write_csv(filename + "_p.csv", p);
+    } else {
+        std::cerr << "Unsupported format: " << format << std::endl;
+    }
+}
+
+void FlowField::write_csv(
+    const std::string& filename,
+    const std::vector<std::vector<double>>& data
+) const {
+    std::ofstream file(filename);
+    if (!file){
+        std::cerr << "[Error] Could not open file "
+            << filename << " for writing." << std::endl;
+        return;
+    }
+    for (const auto& row : data) {
+        for (size_t i = 0; i < row.size(); i++) {
+            file << row[i];
+            if (i < row.size() - 1) file << ",";
+        }
+        file << "\n";
+    }
+    file.close();
 }
 
 // for debug

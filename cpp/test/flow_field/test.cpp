@@ -22,5 +22,7 @@ int main() {
     std::cout << "After update: " << std::endl;
     field.print();
 
+    std::cout << "save to csv.\n";
+    field.save_to_file("test", "csv");
     return 0;
 }
