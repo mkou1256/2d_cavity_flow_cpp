@@ -41,6 +41,10 @@ void FlowField::save_to_file(
         write_csv(filename + "_u.csv", u);
         write_csv(filename + "_v.csv", v);
         write_csv(filename + "_p.csv", p);
+    } else if(format == "bin"){
+        write_binary(filename + "_u.bin", u);
+        write_binary(filename + "_v.bin", v);
+        write_binary(filename + "_p.bin", p);
     } else {
         std::cerr << "Unsupported format: " << format << std::endl;
     }
@@ -62,6 +66,24 @@ void FlowField::write_csv(
             if (i < row.size() - 1) file << ",";
         }
         file << "\n";
+    }
+    file.close();
+}
+
+void FlowField::write_binary(
+    const std::string& filename,
+    const std::vector<std::vector<double>>& data
+) const {
+    std::ofstream file(filename);
+    if (!file){
+        std::cerr << "[Error] Could not open file "
+            << filename << " for writing." << std::endl;
+        return;
+    }
+    for (const auto& row : data) {
+        file.write(
+            reinterpret_cast<const char*>(row.data()), row.size()*sizeof(double)
+        );
     }
     file.close();
 }

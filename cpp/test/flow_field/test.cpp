@@ -24,5 +24,7 @@ int main() {
 
     std::cout << "save to csv.\n";
     field.save_to_file("test", "csv");
+    std::cout << "save to bin.\n";
+    field.save_to_file("test", "bin");
     return 0;
 }
