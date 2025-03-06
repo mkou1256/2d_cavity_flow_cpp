@@ -8,10 +8,10 @@ f(x+dx) = f(x) + \partial_x f(x) dx + \frac{1}{2} \partial_{xx} f(x) dx^2 + O(dx
 f(x-dx) = f(x) - \partial_x f(x) dx + \frac{1}{2} \partial_{xx} f(x) dx^2 + O(dx^3)
 $
 より、
-$
+$$
 f(x+dx) - f(x-dx) = 2 \partial_x f(x) dx \\
 \therefore  \frac{\partial f(x)}{\partial x} = \frac{f(x+dx) - f(x-dx)}{2dx} + O(dx^2)
-$
+$$
 と、二次精度で計算できる。
 
 境界条件を考えて離散化すると以下のようになる。(端点では2次前進/後退差分を用いている)  
