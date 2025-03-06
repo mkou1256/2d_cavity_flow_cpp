@@ -14,7 +14,7 @@ int main() {
     // テスト範囲
     double xmin = 0.0;
     double xmax = 2.0 * M_PI;
-    int N = 100000;
+    int N = 100;
     double dx = (xmax - xmin) / (N - 1);
 
     // x座標の設定
@@ -46,7 +46,7 @@ int main() {
 
     // compute RMSE
     double rmse = 0.0;
-    for (int i; i < N; ++i){
+    for (int i = 0; i < N; ++i){
         rmse += (df[i] - analytical[i])*(df[i] - analytical[i]);
     }
     rmse /= N;

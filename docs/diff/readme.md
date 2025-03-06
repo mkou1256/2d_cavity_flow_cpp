@@ -14,7 +14,7 @@ f(x+dx) - f(x-dx) = 2 \partial_x f(x) dx \\
 $
 と、二次精度で計算できる。
 
-境界条件を考えて離散化すると以下のようになる。(端点では一次差分を用いている)  
+境界条件を考えて離散化すると以下のようになる。(端点では2次前進/後退差分を用いている)  
 $0 \leq i \leq nx$の範囲を前提にする。  
 1. $1 \leq i \leq nx-1$:
 $
@@ -22,11 +22,11 @@ $
 $
 2. $i = 0$: 
 $
-\left( \frac{\partial f}{\partial x} \right)_0 = \frac{f_{1}-f_{0}}{x_{1}-x_{0}}
+\left( \frac{\partial f}{\partial x} \right)_0 = \frac{-3f_{0}+4f_{1}-f_{2}}{x_{2}-x_{0}}
 $
 3. $i = nx$: 
 $
-\left( \frac{\partial f}{\partial x} \right)_{nx} = \frac{f_{nx}-f_{nx-1}}{x_{nx}-x_{nx-1}}
+\left( \frac{\partial f}{\partial x} \right)_{nx} = \frac{3f_{nx}-4f_{nx-1}+f_{nx-2}}{x_{nx}-x_{nx-2}}
 $
 
 ### 計算結果
