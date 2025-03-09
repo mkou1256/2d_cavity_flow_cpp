@@ -56,6 +56,17 @@ SMAC法とは、圧力を陰的に扱って時間発展させる方法である�
 ![v_update](https://latex.codecogs.com/svg.image?v^{(n&plus;1)}=v^{*}&plus;\Delta&space;t\frac{\partial\delta&space;p}{\partial&space;y})
 
 
+## 具体的なアルゴリズム - 空間差分 -
+
+### 1. Advection Term
+移流項は以下のように計算する。
+Diffは一次元微分を、添え字は定義グリッドの種類(uはx方向ベクトル点、など)を示す。
+
+![adv_term_u](https://latex.codecogs.com/svg.image?\mathrm{AdvectionTerm_u}=-\frac{\Delta&space;uu}{\Delta&space;x}-\frac{\Delta&space;vu}{\Delta&space;y}=-\mathrm{Diff_x(u_u\cdot&space;u_u)}-\mathrm{Diff_y(v_u\cdot&space;u_u)})
+
+![adv_term_v](https://latex.codecogs.com/svg.image?\mathrm{AdvectionTerm_v}=-\frac{\Delta&space;uv}{\Delta&space;x}-\frac{\Delta&space;vv}{\Delta&space;y}=-\mathrm{Diff_x(u_v\cdot&space;v_v)}-\mathrm{Diff_y(v_v\cdot&space;v_v)})
+
+
 
 ## 参考
 - [粘性流体の非定常流れの数値解析アルゴリズム](https://www.kurims.kyoto-u.ac.jp/~kyodo/kokyuroku/contents/pdf/0548-07.pdf)

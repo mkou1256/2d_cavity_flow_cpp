@@ -28,4 +28,4 @@ xs[0] = 0.5 * (lx / nx)なので、xs[i] = 0.5*(lx/nx) + (lx/nx)*i = (i + 0.5) *
 | xs[i] | (i + 0.5)*(lx/nx)| [0, nx-1] |
 | xs[j] | (j + 0.5)*(ly/ny)| [0, ny-1] |
 | xu[i] | i * (lx/nx)| [0, nx] |
-| yj[j] | j * (ly/ny)| [0, ny] |
+| yv[j] | j * (ly/ny)| [0, ny] |
