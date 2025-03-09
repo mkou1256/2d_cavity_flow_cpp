@@ -18,7 +18,7 @@ SMAC法とは、圧力を陰的に扱って時間発展させる方法である�
 
 ![ns_semi_implicit_n+1](https://latex.codecogs.com/svg.image?\mathbf{u}^{(n&plus;1)}=\mathbf{u}^{(n)}&plus;\Delta&space;t\mathbf{f}(\mathbf{u}^{(n)},p^{(n&plus;1)}))
 
-となる。$p^{(n+1)}$を求めるために、$p^{(n)}$を用いて速度場の中間予測値$\mathbf{u^{*}}$を求めると、
+として求めたい。$p^{(n+1)}$を求めるために、$p^{(n)}$を用いて速度場の中間予測値$\mathbf{u^{*}}$を求めると、
 
 ![ns_semi_implicit_star](https://latex.codecogs.com/svg.image?\mathbf{u}^{*}=\mathbf{u}^{(n)}&plus;\Delta&space;t\mathbf{f}(\mathbf{u}^{(n)},p^{(n)}))
 
@@ -33,13 +33,29 @@ SMAC法とは、圧力を陰的に扱って時間発展させる方法である�
 が得られる。
 
 
-## 時間について離散化
-これを時間について離散化する。その際、第nステップ目の$u^{(n)}, v^{(n)}, p^{(n)}$を用いて、$u^*, v^*$を予測する。
+## 具体的なアルゴリズム
 
+### 時間離散化
+#### 1. 中間予測値を求める
+第nステップ目の$u^{(n)}, v^{(n)}, p^{(n)}$を用いて、$u^*, v^*$を予測する。
 
-![time_discretize_u_2](https://latex.codecogs.com/svg.image?&space;u^*=u^{(n)}&plus;\Delta&space;t\left(\mathrm{AdvectionTerm_u}&plus;\mathrm{PressureTerm_u}&plus;\mathrm{ViscosityTerm_u}\right))
+![time_discretize_u_2](https://latex.codecogs.com/svg.image?&space;u^*=u^{(n)}&plus;\Delta&space;t\left(\mathrm{AdvectionTerm_u^{(n)}}&plus;\mathrm{PressureTerm_u^{(n)}}&plus;\mathrm{ViscosityTerm_u^{(n)}}\right))
 
-![time_discretize_v_2](https://latex.codecogs.com/svg.image?&space;v^*=v^{(n)}&plus;\Delta&space;t\left(\mathrm{AdvectionTerm_v}&plus;\mathrm{PressureTerm_v}&plus;\mathrm{ViscosityTerm_v}\right))
+![time_discretize_v_2](https://latex.codecogs.com/svg.image?&space;v^*=v^{(n)}&plus;\Delta&space;t\left(\mathrm{AdvectionTerm_v^{(n)}}&plus;\mathrm{PressureTerm_v^{(n)}}&plus;\mathrm{ViscosityTerm_v^{(n)}}\right))
+
+ここでは、一次オイラー法を用いている。高次なルンゲクッタ法を用いる事も可能だと思う。
+
+#### 2. 圧力の変化量についてポアソン方程式を解く
+
+![dp_poisson](https://latex.codecogs.com/svg.image?\nabla^2\delta&space;p=\frac{1}{\Delta&space;t}\left(\frac{\partial&space;u^*}{\partial&space;x}&plus;\frac{\partial&space;v^*}{\partial&space;y}\right))
+
+#### 3. 圧力と速度を更新する
+
+![p_update](https://latex.codecogs.com/svg.image?p^{(n&plus;1)}=p^{(n)}&plus;\delta&space;p&space;)
+
+![u_update](https://latex.codecogs.com/svg.image?u^{(n&plus;1)}=u^{*}&plus;\Delta&space;t\frac{\partial\delta&space;p}{\partial&space;x})
+
+![v_update](https://latex.codecogs.com/svg.image?v^{(n&plus;1)}=v^{*}&plus;\Delta&space;t\frac{\partial\delta&space;p}{\partial&space;y})
 
 
 
