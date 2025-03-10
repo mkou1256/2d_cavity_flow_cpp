@@ -11,6 +11,16 @@ FlowField::FlowField(const Mesh2D& mesh)
     p.resize(nx  , std::vector<double>(ny  , 0.0));
 }
 
+const std::vector<std::vector<double>>& FlowField::get_u() const {
+    return u;
+}
+const std::vector<std::vector<double>>& FlowField::get_v() const {
+    return v;
+}
+const std::vector<std::vector<double>>& FlowField::get_p() const {
+    return p;
+}
+
 void FlowField::update(
     const std::vector<std::vector<double>>& du,
     const std::vector<std::vector<double>>& dv,
