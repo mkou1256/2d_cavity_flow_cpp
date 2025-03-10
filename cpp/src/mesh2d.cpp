@@ -3,17 +3,17 @@
 
 Mesh2D::Mesh2D(int nx, int ny, double lx, double ly){
     //center of grids, xc and yc
-    for (int i = 0; i < nx; ++i){
-        xc.push_back((static_cast<double>(i) + 0.5) * (lx/nx));
+    for (int i = 0; i < nx+2; ++i){
+        xc.push_back((static_cast<double>(i) - 0.5) * (lx/nx));
     }
-    for (int j = 0; j < ny; ++j){
-        yc.push_back((static_cast<double>(j) + 0.5) * (ly/ny));
+    for (int j = 0; j < ny+2; ++j){
+        yc.push_back((static_cast<double>(j) - 0.5) * (ly/ny));
     }
     // edge of grids, for vector
-    for (int i = 0; i <= nx; ++i){
+    for (int i = 0; i < nx+1; ++i){
         xu.push_back(static_cast<double>(i) * (lx/nx));
     }
-    for (int j = 0; j <= ny; ++j){
+    for (int j = 0; j < ny+1; ++j){
         yv.push_back(static_cast<double>(j) * (ly/ny));
     }
 }
