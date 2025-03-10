@@ -11,14 +11,15 @@ int main() {
 
     FlowField field(mesh);
 
-    std::vector<std::vector<double>> du(nx+1, std::vector<double>(ny  , 0.1));
-    std::vector<std::vector<double>> dv(nx  , std::vector<double>(ny+1, 0.1));
-    std::vector<std::vector<double>> dp(nx  , std::vector<double>(ny  , 0.1));
+    std::vector<std::vector<double>> du(nx+1, std::vector<double>(ny+2, 0.1));
+    std::vector<std::vector<double>> dv(nx+2, std::vector<double>(ny+1, 0.1));
+    std::vector<std::vector<double>> dp(nx+2, std::vector<double>(ny+2, 0.1));
 
     std::cout << "Before update: " << std::endl;
     field.print();
 
     field.update(du, dv, dp);
+    field.boundary_condition();
     std::cout << "After update: " << std::endl;
     field.print();
 

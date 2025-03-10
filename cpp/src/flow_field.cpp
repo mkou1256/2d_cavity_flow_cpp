@@ -4,11 +4,11 @@
 #include <fstream>
 
 FlowField::FlowField(const Mesh2D& mesh)
-    : nx(mesh.get_xc().size()), ny(mesh.get_yc().size()) {
+    : nx(mesh.get_xc().size()-2), ny(mesh.get_yc().size()-2) { // nx, ny is number of grids, exclude ghost cells.
     // extend number of grid and initialize with zero
-    u.resize(nx+1, std::vector<double>(ny  , 0.0));
-    v.resize(nx  , std::vector<double>(ny+1, 0.0));
-    p.resize(nx  , std::vector<double>(ny  , 0.0));
+    u.resize(nx+1, std::vector<double>(ny+2, 0.0)); // u has [nx+1][ny+2] size, include ghost cells
+    v.resize(nx+2, std::vector<double>(ny+1, 0.0)); // v has [nx+2][ny+1] size, include ghost cells
+    p.resize(nx+2, std::vector<double>(ny+2, 0.0)); // p has [nx+2][ny+2] size, include ghost cells
 }
 
 const std::vector<std::vector<double>>& FlowField::get_u() const {
