@@ -1,12 +1,16 @@
 #include "mesh2d.hpp"
 #include <iostream>
 
-Mesh2D::Mesh2D(int nx, int ny, double lx, double ly){
+Mesh2D::Mesh2D(int nx, int ny, double lx, double ly, int n_ghost_cells){
+    if (n_ghost_cells!=1){
+        std::cerr << "Only support 1 ghost cell now\n";
+        exit(1);
+    }
     //center of grids, xc and yc
-    for (int i = 0; i < nx+2; ++i){
+    for (int i = 0; i < nx+2*n_ghost_cells; ++i){
         xc.push_back((static_cast<double>(i) - 0.5) * (lx/nx));
     }
-    for (int j = 0; j < ny+2; ++j){
+    for (int j = 0; j < ny+2*n_ghost_cells; ++j){
         yc.push_back((static_cast<double>(j) - 0.5) * (ly/ny));
     }
     // edge of grids, for vector
