@@ -28,6 +28,8 @@ class FlowField {
             const std::vector<std::vector<double>>& dp
         );
 
+        void boundary_condition();
+
         void save_to_file(
             const std::string& filename,
             const std::string& format = "csv"

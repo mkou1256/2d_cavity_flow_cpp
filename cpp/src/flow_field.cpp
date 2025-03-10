@@ -33,6 +33,41 @@ void FlowField::update(
     }
 }
 
+void FlowField::boundary_condition() {
+    // u boundary condition
+    for (int j = 0; j < ny+2; ++j) {
+        u[0][j] = 0.0; //on left wall
+        u[nx][j] = 0.0; //on right wall
+    }
+    for (int i = 0; i < nx+1; ++i) {
+        //bottom ghost cell, velocity at wall is zero.
+        u[i][0] = -u[i][1];
+        //top ghost cell, velocity is normalized. 
+        //median of u_ny(nearest wall) and u_ny+1(ghost cell) must be 1.0.
+        u[i][ny+1] = 2 * 1.0 - u[i][ny]; 
+    }
+
+    // v boundary condition
+    for (int j = 0; j < ny+1; ++j) {
+        v[0][j] = -v[1][j]; // left wall
+        v[nx][j] = -v[nx-1][j]; // right wall
+    }
+    for (int i = 0; i < nx+2; ++i) {
+        v[i][0] = 0.0;
+        v[i][ny] = 0.0;
+    }
+
+    // p boundary condition
+    for (int j = 0; j < ny+2; ++j) {
+        p[0][j] = p[1][j]; // left wall
+        p[nx+1][j] = p[nx][j]; // right wall
+    }
+    for (int i = 0; i < nx+2; ++i) {
+        p[i][0] = p[i][1]; // bottom wall
+        p[i][ny+1] = p[i][ny]; // top wall
+    }
+}
+
 void FlowField::save_to_file(
     const std::string& filename,
     const std::string& format
