@@ -9,6 +9,9 @@ int main() {
     
     // メッシュを表示
     mesh.print();
+    int _nx = mesh.get_nx();
+    int _ny = mesh.get_ny();
+    std::cout << "nx, ny = " << _nx << ", " << _ny << std::endl;
 
     std::cout << "test for getXc()" << std::endl;
     std::vector<double> xc = mesh.get_xc();
