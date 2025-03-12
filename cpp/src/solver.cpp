@@ -10,17 +10,22 @@ std::vector<std::vector<double>> SMACSolver::interpolate_u_to_v(
     const Mesh2D& mesh
 ) const {
     // Interpolate u to v location
-    int nx = mesh.get_xc().size();
-    int ny = mesh.get_yc().size();
-    std::vector<std::vector<double>> u_to_v(nx, std::vector<double>(ny+1, 0.0));
-    for (int i = 0; i < nx; ++i) {
-        u_to_v[i][0] = 0.0; // Boundary condition
-        u_to_v[i][ny] = 0.0; // Boundary condition
-        for (int j = 1; j < ny; ++j) {
+    // u: [nx+1, ny+2] grids -> v: [nx+2, ny+1] grids
+    // top and bottom row of v can be interpolated using top and bottom row of u. 
+    // --> j index ranges from 0 to ny
+    // but left and right column of v can't be interpolated using left and right column of u.
+    // --> i index ranges from 1 to nx and boundary condition is needed for i = 0 and i = nx+2.
+    int nx = mesh.get_nx();
+    int ny = mesh.get_ny();
+    std::vector<std::vector<double>> u_to_v(nx+2, std::vector<double>(ny+1, 0.0));
+    for (int j = 0; j < ny+1; ++j) {
+        for (int i = 1; i < nx+1; ++i) {
             u_to_v[i][j] = 0.25 * (
                 u[i][j] + u[i+1][j] + u[i][j-1] + u[i+1][j-1]
             );
         }
+        u_to_v[0][j] = - u_to_v[1][j];
+        u_to_v[nx+1][j] = - u_to_v[nx][j];
     }
     return u_to_v;
 }
