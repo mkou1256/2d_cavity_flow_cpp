@@ -1,7 +1,8 @@
 #include "mesh2d.hpp"
 #include <iostream>
 
-Mesh2D::Mesh2D(int nx, int ny, double lx, double ly, int n_ghost_cells){
+Mesh2D::Mesh2D(int nx, int ny, double lx, double ly, int n_ghost_cells)
+    : nx(nx), ny(ny), lx(lx), ly(ly), n_ghost_cells(n_ghost_cells) {
     if (n_ghost_cells!=1){
         std::cerr << "Only support 1 ghost cell now\n";
         exit(1);
@@ -27,8 +28,12 @@ const std::vector<double>& Mesh2D::get_yc() const { return yc; }
 const std::vector<double>& Mesh2D::get_xu() const { return xu; }
 const std::vector<double>& Mesh2D::get_yv() const { return yv; }
 
+const int& Mesh2D::get_nx() const { return nx; } // the number of grids in x direction, exclude ghost cells
+const int& Mesh2D::get_ny() const { return ny; } // the number of grids in y direction, exclude ghost cells
+
 // for debug
 void Mesh2D::print() const {
+    
     std::cout << "xc: " ;
     for (double xi : xc){
         std::cout << xi << " ";

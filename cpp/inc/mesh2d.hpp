@@ -6,8 +6,8 @@
 class Mesh2D{
     private:
         int nx, ny; // number of grids
-        int n_ghost_cells; // number of ghost cells
         double lx, ly; // length of domain
+        int n_ghost_cells; // number of ghost cells
         std::vector<double> xc, yc; // center of grids, for scaler
         std::vector<double> xu, yv; // edge of grids, for vector
     
@@ -18,6 +18,9 @@ class Mesh2D{
         const std::vector<double>& get_yc() const;
         const std::vector<double>& get_xu() const;
         const std::vector<double>& get_yv() const;
+
+        const int& get_nx() const;
+        const int& get_ny() const;
 
         void print() const;
 };
