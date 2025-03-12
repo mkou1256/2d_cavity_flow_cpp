@@ -35,16 +35,23 @@ std::vector<std::vector<double>> SMACSolver::interpolate_v_to_u(
     const Mesh2D& mesh
 ) const {
     // Interpolate v to u location
-    int nx = mesh.get_xc().size();
-    int ny = mesh.get_yc().size();
-    std::vector<std::vector<double>> v_to_u(nx, std::vector<double>(ny, 0.0));
-    for (int i = 1; i < nx-1; ++i) {
-        for (int j = 1; j < ny-1; ++j) {
+    // v: [nx+2, ny+1] grids -> u: [nx+1, ny+2] grids
+    // left and right column of u can be interpolated using left and right column of v.
+    // --> i index ranges from 0 to nx
+    // but top and bottom row of u can't be interpolated using top and bottom row of v.
+    // --> j index ranges from 1 to ny and boundary condition is needed for j = 0 and j = ny+2.
+    int nx = mesh.get_nx();
+    int ny = mesh.get_ny();
+    std::vector<std::vector<double>> v_to_u(nx+1, std::vector<double>(ny+2, 0.0));
+    for (int i = 0; i < nx+1; ++i) {
+        for (int j = 1; j < ny+1; ++j) {
             v_to_u[i][j] = 0.25 * (
                 v[i-1][j+1] + v[i][j+1] + v[i-1][j] + v[i][j]
             );
         }
-    }
+        v_to_u[i][0] = - v_to_u[i][1];
+        v_to_u[i][ny+1] = - v_to_u[i][ny];
+    }   
     return v_to_u;
 }
 
@@ -53,12 +60,15 @@ std::vector<std::vector<double>> SMACSolver::interpolate_p_to_u(
     const Mesh2D& mesh
 ) const {
     // Interpolate p to u location
-    int nx = mesh.get_xc().size();
-    int ny = mesh.get_yc().size();
-    std::vector<std::vector<double>> p_to_u(nx, std::vector<double>(ny, 0.0));
-    for (int i = 1; i < nx-1; ++i) {
-        for (int j = 1; j < ny-1; ++j) {
-            p_to_u[i][j] = 0.5 * (p[i][j] + p[i-1][j]);
+    // p: [nx+2, ny+2] grids -> u: [nx+1, ny+2] grids
+    // only x-direction interpolation is needed.
+    // all of u-grids are on beetwen p-grids. there are no need to boundary condition.
+    int nx = mesh.get_nx();
+    int ny = mesh.get_ny();
+    std::vector<std::vector<double>> p_to_u(nx+1, std::vector<double>(ny+2, 0.0));
+    for (int i = 0; i < nx+1; ++i) {
+        for (int j = 0; j < ny+2; ++j) {
+            p_to_u[i][j] = 0.5 * (p[i][j] + p[i+1][j]);
         }
     }
     return p_to_u;
@@ -69,18 +79,21 @@ std::vector<std::vector<double>> SMACSolver::interpolate_p_to_v(
     const Mesh2D& mesh
 ) const {
     // Interpolate p to v location
-    int nx = mesh.get_xc().size();
-    int ny = mesh.get_yc().size();
-    std::vector<std::vector<double>> p_to_v(nx, std::vector<double>(ny, 0.0));
-    for (int i = 1; i < nx-1; ++i) {
+    // p: [nx+2, ny+2] grids -> v: [nx+2, ny+1] grids
+    // only y-direction interpolation is needed.
+    // all of v-grids are on beetwen p-grids. there are no need to boundary condition.
+    int nx = mesh.get_nx();
+    int ny = mesh.get_ny();
+    std::vector<std::vector<double>> p_to_v(nx+2, std::vector<double>(ny+1, 0.0));
+    for (int i = 0; i < nx+2; ++i) {
         for (int j = 1; j < ny-1; ++j) {
-            p_to_v[i][j] = 0.5 * (p[i][j] + p[i][j-1]);
+            p_to_v[i][j] = 0.5 * (p[i][j] + p[i][j+1]);
         }
     }
     return p_to_v;
 }
 
-std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_advection_term(
+std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_advection_terms(
     const std::vector<std::vector<double>>& u, 
     const std::vector<std::vector<double>>& v, 
     const std::vector<double>& xc, 
@@ -106,7 +119,7 @@ std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SM
     return {advection_term_u, advection_term_v};
 }
 
-std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_pressure_term(
+std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_pressure_terms(
     const std::vector<std::vector<double>>& p, 
     const std::vector<double>& xc, 
     const std::vector<double>& yc
@@ -130,7 +143,7 @@ std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SM
     return {pressure_term_u, pressure_term_v};
 }
 
-std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_viscosity_term(
+std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_viscosity_terms(
     const std::vector<std::vector<double>>& u, 
     const std::vector<double>& xc, 
     const std::vector<double>& yc
@@ -171,9 +184,9 @@ void SMACSolver::compute_intermediate_velocity() {
     std::vector<std::vector<double>> du(nx+1, std::vector<double>(ny, 0.0));
     std::vector<std::vector<double>> dv(nx, std::vector<double>(ny+1, 0.0));
 
-    auto [advection_term_u, advection_term_v] = compute_advection_term(flow_field.get_u(), flow_field.get_v(), mesh.get_xu(), mesh.get_yc());
-    auto [pressure_term_u, pressure_term_v] = compute_pressure_term(flow_field.get_p(), mesh.get_xc(), mesh.get_yc());
-    auto [viscosity_term_u, viscosity_term_v] = compute_viscosity_term(flow_field.get_u(), mesh.get_xc(), mesh.get_yc());
+    auto [advection_term_u, advection_term_v] = compute_advection_terms(flow_field.get_u(), flow_field.get_v(), mesh.get_xu(), mesh.get_yc());
+    auto [pressure_term_u, pressure_term_v] = compute_pressure_terms(flow_field.get_p(), mesh.get_xc(), mesh.get_yc());
+    auto [viscosity_term_u, viscosity_term_v] = compute_viscosity_terms(flow_field.get_u(), mesh.get_xc(), mesh.get_yc());
 
     for (int i = 1; i < nx-1; ++i) {
         for (int j = 1; j < ny-1; ++j) {
