@@ -2,8 +2,8 @@
 #include <vector>
 #include <cmath>
 
-SMACSolver::SMACSolver(const Mesh2D& mesh, FlowField& flow_field, const DiffMethod& diff_method, double dt)
-    : mesh(mesh), flow_field(flow_field), diff_method(diff_method), dt(dt) {}
+SMACSolver::SMACSolver(const Mesh2D& mesh, FlowField& flow_field, const DiffMethod& diff_method, double dt, const double RE)
+    : mesh(mesh), flow_field(flow_field), diff_method(diff_method), dt(dt), RE(RE) {}
 
 std::vector<std::vector<double>> SMACSolver::interpolate_u_to_v(
     std::vector<std::vector<double>>& u,

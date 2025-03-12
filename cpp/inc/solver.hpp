@@ -11,6 +11,7 @@ class SMACSolver {
         FlowField& flow_field;
         const DiffMethod& diff_method;
         double dt;
+        const double RE;
 
         // Interpolation functions
         std::vector<std::vector<double>> interpolate_u_to_v(
@@ -37,20 +38,20 @@ class SMACSolver {
 
         // Term calculation functions, used in compute_intermediate_velocity()
         std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> 
-        compute_advection_term(
+        compute_advection_terms(
             std::vector<std::vector<double>>& u,
             std::vector<std::vector<double>>& v,
             const Mesh2D& mesh,
             const DiffMethod& diff_method
         ) const;
         std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>>
-         compute_pressure_term(
+         compute_pressure_terms(
             std::vector<std::vector<double>>& p,
             const Mesh2D& mesh,
             const DiffMethod& diff_method
         ) const;
         std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>>
-        compute_viscosity_term(
+        compute_viscosity_terms(
             std::vector<std::vector<double>>& u,
             std::vector<std::vector<double>>& v,
             const Mesh2D& mesh,
@@ -58,7 +59,7 @@ class SMACSolver {
         ) const;
 
     public:
-        SMACSolver(const Mesh2D& mesh, FlowField& flow_field, const DiffMethod& diff_method, double dt);
+        SMACSolver(const Mesh2D& mesh, FlowField& flow_field, const DiffMethod& diff_method, double dt, const double RE);
 
         void step();
 };
