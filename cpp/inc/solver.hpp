@@ -31,6 +31,10 @@ class SMACSolver {
             const Mesh2D& mesh
         ) const;
 
+        std::vector<std::vector<double>> transpose(
+            std::vector<std::vector<double>>& matrix
+        ) const;
+
         // Time-stepping functions
         void compute_intermediate_velocity();
         void solve_pressure_poisson();

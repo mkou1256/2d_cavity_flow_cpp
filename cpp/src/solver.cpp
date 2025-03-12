@@ -93,17 +93,38 @@ std::vector<std::vector<double>> SMACSolver::interpolate_p_to_v(
     return p_to_v;
 }
 
-std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_advection_terms(
-    const std::vector<std::vector<double>>& u, 
-    const std::vector<std::vector<double>>& v, 
-    const std::vector<double>& xc, 
-    const std::vector<double>& yc
-) const {
-    int nx = xc.size();
-    int ny = yc.size();
-    std::vector<std::vector<double>> advection_term_u(nx, std::vector<double>(ny, 0.0));
-    std::vector<std::vector<double>> advection_term_v(nx, std::vector<double>(ny, 0.0));
 
+std::vector<std::vector<double>> SMACSolver::transpose(
+    std::vector<std::vector<double>>& matrix) const {
+    int nx = matrix.size();
+    int ny = matrix[0].size();
+    std::vector<std::vector<double>> transposed(ny, std::vector<double>(nx, 0.0));
+    for (int i = 0; i < nx; ++i) {
+        for (int j = 0; j < ny; ++j) {
+            transposed[j][i] = matrix[i][j];
+        }
+    }
+    return transposed;
+}
+
+std::pair<std::vector<std::vector<double>>, std::vector<std::vector<double>>> SMACSolver::compute_advection_terms(
+    std::vector<std::vector<double>>& u, 
+    std::vector<std::vector<double>>& v, 
+    const Mesh2D& mesh,
+    const DiffMethod& diff_method
+) const {
+    int nx = mesh.get_nx();
+    int ny = mesh.get_ny();
+    std::vector<double> xc = mesh.get_xc();
+    std::vector<double> yc = mesh.get_yc();
+    std::vector<std::vector<double>> advection_term_u(nx+1, std::vector<double>(ny+2, 0.0)); // defined on u-grids
+    std::vector<std::vector<double>> advection_term_v(nx+2, std::vector<double>(ny+1, 0.0)); // defined on v-grids
+
+    // Compute x-direction advection term
+    // all calculations are on u-grids.
+    // advection_term_u is consist of duu_dx + dvu_dy
+    // for y-derivative, transposed vu is needed to use 1d-diff-method.
+    std::vector<std::vector<double>> v_ug = interpolate_v_to_u(v, mesh);
     for (int i = 1; i < nx-1; ++i) {
         for (int j = 1; j < ny-1; ++j) {
             double du_dx = diff_method.compute(u[i], xc)[j];
